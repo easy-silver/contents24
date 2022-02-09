@@ -1,4 +1,4 @@
-package homework.querydsl.contents24.web.dto;
+package homework.querydsl.contents24.web.dto.response;
 
 import homework.querydsl.contents24.domain.platform.Platform;
 import lombok.Getter;
@@ -10,20 +10,20 @@ import java.util.List;
 
 @NoArgsConstructor
 @Getter @Setter
-public class PlatformResponseDto {
+public class PlatformResponse {
 
     private Long id;
     private String name;
     private String link;
     //소속 컨텐츠 리스트
-    private List<ContentResponseDto> contentsList = new ArrayList<>();
+    private List<ContentResponse> contentsList = new ArrayList<>();
 
-    public PlatformResponseDto(String name, String link) {
+    public PlatformResponse(String name, String link) {
         this.name = name;
         this.link = link;
     }
 
-    public PlatformResponseDto(Platform entity) {
+    public PlatformResponse(Platform entity) {
         this.id = entity.getId();
         this.name = entity.getName();
         this.link = entity.getLink();

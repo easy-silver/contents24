@@ -1,4 +1,4 @@
-package homework.querydsl.contents24.web.dto;
+package homework.querydsl.contents24.web.dto.request;
 
 import homework.querydsl.contents24.domain.platform.Platform;
 import io.swagger.annotations.ApiParam;
@@ -9,7 +9,7 @@ import lombok.Setter;
  * 플랫폼 요청 관련 DTO
  */
 @Getter @Setter
-public class PlatformRequestDto {
+public class PlatformRequest {
 
     @ApiParam(value = "플랫폼 이름", required = true, example = "노마드코더")
     private String name;

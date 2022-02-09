@@ -1,4 +1,4 @@
-package homework.querydsl.contents24.web.dto;
+package homework.querydsl.contents24.web.dto.request;
 
 import io.swagger.annotations.ApiParam;
 import lombok.Getter;

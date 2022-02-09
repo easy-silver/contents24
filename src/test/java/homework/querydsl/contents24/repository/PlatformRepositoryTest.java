@@ -4,8 +4,8 @@ import homework.querydsl.contents24.domain.account.AccountRepository;
 import homework.querydsl.contents24.domain.content.ContentRepository;
 import homework.querydsl.contents24.domain.platform.PlatformRepository;
 import homework.querydsl.contents24.domain.possession.PossessionRepository;
-import homework.querydsl.contents24.web.dto.PlatformResponseDto;
-import homework.querydsl.contents24.web.dto.PlatformSearchCondition;
+import homework.querydsl.contents24.web.dto.response.PlatformResponse;
+import homework.querydsl.contents24.web.dto.request.PlatformSearchCondition;
 import homework.querydsl.contents24.domain.platform.Platform;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -185,7 +185,7 @@ class PlatformRepositoryTest {
         Pageable pageable = PageRequest.of(0, 10);
 
         //when
-        Page<PlatformResponseDto> platforms = repository.search(condition, pageable);
+        Page<PlatformResponse> platforms = repository.search(condition, pageable);
 
         //then
         assertThat(platforms.getTotalElements()).isEqualTo(2);

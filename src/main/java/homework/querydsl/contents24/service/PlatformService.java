@@ -1,9 +1,9 @@
 package homework.querydsl.contents24.service;
 
-import homework.querydsl.contents24.web.dto.ContentResponseDto;
-import homework.querydsl.contents24.web.dto.PlatformRequestDto;
-import homework.querydsl.contents24.web.dto.PlatformResponseDto;
-import homework.querydsl.contents24.web.dto.PlatformSearchCondition;
+import homework.querydsl.contents24.web.dto.response.ContentResponse;
+import homework.querydsl.contents24.web.dto.request.PlatformRequest;
+import homework.querydsl.contents24.web.dto.response.PlatformResponse;
+import homework.querydsl.contents24.web.dto.request.PlatformSearchCondition;
 import homework.querydsl.contents24.domain.platform.Platform;
 import homework.querydsl.contents24.domain.account.AccountRepository;
 import homework.querydsl.contents24.domain.content.ContentRepository;
@@ -35,7 +35,7 @@ public class PlatformService {
      * @return
      */
     @Transactional
-    public Long register(PlatformRequestDto requestDto) {
+    public Long register(PlatformRequest requestDto) {
         return repository.save(requestDto.toEntity()).getId();
     }
 
@@ -45,7 +45,7 @@ public class PlatformService {
      * @param pageable
      * @return
      */
-    public Page<PlatformResponseDto> search(PlatformSearchCondition condition, Pageable pageable) {
+    public Page<PlatformResponse> search(PlatformSearchCondition condition, Pageable pageable) {
         return repository.search(condition, pageable);
     }
 
@@ -53,9 +53,9 @@ public class PlatformService {
      * 플랫폼 전체 조회
      * 조회해 온 엔티티를 DTO로 변환하여 리스트 반환
      */
-    public List<PlatformResponseDto> findAll() {
+    public List<PlatformResponse> findAll() {
         return repository.findAll().stream()
-                .map(PlatformResponseDto::new)
+                .map(PlatformResponse::new)
                 .collect(Collectors.toList());
     }
 
@@ -64,17 +64,17 @@ public class PlatformService {
      * @param id
      * @return responseDto
      */
-    public PlatformResponseDto detail(Long id) {
+    public PlatformResponse detail(Long id) {
         Platform platform = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 플랫폼입니다. platformNo=" + id));
 
-        PlatformResponseDto platformResponseDto = new PlatformResponseDto(platform);
+        PlatformResponse platformResponse = new PlatformResponse(platform);
 
         //해당 플랫폼 소속 전체 컨텐츠 목록 조회
-        platformResponseDto.setContentsList(contentRepository.findByPlatform(platform)
-                .stream().map(ContentResponseDto::new).collect(Collectors.toList()));
+        platformResponse.setContentsList(contentRepository.findByPlatform(platform)
+                .stream().map(ContentResponse::new).collect(Collectors.toList()));
 
-        return platformResponseDto;
+        return platformResponse;
     }
 
     /**
@@ -84,7 +84,7 @@ public class PlatformService {
      * @return id
      */
     @Transactional
-    public Long update(Long id, PlatformRequestDto requestDto) {
+    public Long update(Long id, PlatformRequest requestDto) {
         Platform platform = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 플랫폼입니다. platformNo=" + id));
 

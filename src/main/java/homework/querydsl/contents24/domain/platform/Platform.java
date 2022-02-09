@@ -1,6 +1,6 @@
 package homework.querydsl.contents24.domain.platform;
 
-import homework.querydsl.contents24.web.dto.PlatformRequestDto;
+import homework.querydsl.contents24.web.dto.request.PlatformRequest;
 import lombok.*;
 
 import javax.persistence.*;
@@ -32,7 +32,7 @@ public class Platform {
         this.link = link;
     }
 
-    public Platform update(PlatformRequestDto requestDto) {
+    public Platform update(PlatformRequest requestDto) {
         this.name = requestDto.getName();
         this.link = requestDto.getLink();
 

@@ -1,8 +1,8 @@
 package homework.querydsl.contents24.web.controller;
 
-import homework.querydsl.contents24.web.dto.ContentCreateRequestDto;
-import homework.querydsl.contents24.web.dto.ContentSearchCondition;
-import homework.querydsl.contents24.web.dto.ContentUpdateRequestDto;
+import homework.querydsl.contents24.web.dto.request.ContentCreateRequest;
+import homework.querydsl.contents24.web.dto.request.ContentSearchCondition;
+import homework.querydsl.contents24.web.dto.request.ContentUpdateRequest;
 import homework.querydsl.contents24.service.ContentService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -30,7 +30,7 @@ public class ContentController {
     @ApiOperation(value = "컨텐츠 신규 등록",
                   notes = "컨텐츠를 신규 등록합니다.")
     @PostMapping("/")
-    public ResponseEntity register(ContentCreateRequestDto requestDto) {
+    public ResponseEntity register(ContentCreateRequest requestDto) {
         requestDto.checkValidation();
         return new ResponseEntity(service.register(requestDto), HttpStatus.CREATED);
     }
@@ -92,7 +92,7 @@ public class ContentController {
     public ResponseEntity update(
             @ApiParam(value = "컨텐츠 번호(PK)", required = true, example = "1")
             @PathVariable Long id,
-            ContentUpdateRequestDto requestDto) {
+            ContentUpdateRequest requestDto) {
         requestDto.checkValidation();
         return new ResponseEntity(service.update(id, requestDto), HttpStatus.OK);
     }

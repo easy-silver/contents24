@@ -1,4 +1,4 @@
-package homework.querydsl.contents24.web.dto;
+package homework.querydsl.contents24.web.dto.request;
 
 import homework.querydsl.contents24.domain.content.Content;
 import io.swagger.annotations.ApiParam;
@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class ContentCreateRequestDto {
+public class ContentCreateRequest {
 
     @ApiParam(value = "플랫폼 번호", required = true, example = "1")
     private Long platformNo;

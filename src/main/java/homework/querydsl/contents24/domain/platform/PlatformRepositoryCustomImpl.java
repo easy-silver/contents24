@@ -5,8 +5,8 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import homework.querydsl.contents24.web.dto.PlatformResponseDto;
-import homework.querydsl.contents24.web.dto.PlatformSearchCondition;
+import homework.querydsl.contents24.web.dto.response.PlatformResponse;
+import homework.querydsl.contents24.web.dto.request.PlatformSearchCondition;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -36,10 +36,10 @@ public class PlatformRepositoryCustomImpl implements PlatformRepositoryCustom {
      * @return
      */
     @Override
-    public Page<PlatformResponseDto> search(PlatformSearchCondition condition, Pageable pageable) {
-        QueryResults<PlatformResponseDto> results = queryFactory
+    public Page<PlatformResponse> search(PlatformSearchCondition condition, Pageable pageable) {
+        QueryResults<PlatformResponse> results = queryFactory
                 .select(Projections.bean(
-                    PlatformResponseDto.class,
+                    PlatformResponse.class,
                     platform.id,
                     platform.name,
                     platform.link))
@@ -54,7 +54,7 @@ public class PlatformRepositoryCustomImpl implements PlatformRepositoryCustom {
                 .limit(pageable.getPageSize())
                 .fetchResults();
 
-        List<PlatformResponseDto> content = results.getResults();
+        List<PlatformResponse> content = results.getResults();
         long total = results.getTotal();
 
         return new PageImpl<>(content, pageable, total);

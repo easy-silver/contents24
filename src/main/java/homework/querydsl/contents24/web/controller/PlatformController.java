@@ -1,7 +1,7 @@
 package homework.querydsl.contents24.web.controller;
 
-import homework.querydsl.contents24.web.dto.PlatformRequestDto;
-import homework.querydsl.contents24.web.dto.PlatformSearchCondition;
+import homework.querydsl.contents24.web.dto.request.PlatformRequest;
+import homework.querydsl.contents24.web.dto.request.PlatformSearchCondition;
 import homework.querydsl.contents24.service.PlatformService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -29,7 +29,7 @@ public class PlatformController {
     @ApiOperation(value = "플랫폼 신규 등록 ",
                   notes = "플랫폼을 새롭게 등록합니다.")
     @PostMapping("/")
-    public ResponseEntity register(PlatformRequestDto requestDto) {
+    public ResponseEntity register(PlatformRequest requestDto) {
         requestDto.checkValidation();
         return new ResponseEntity(service.register(requestDto), HttpStatus.CREATED);
     }
@@ -76,7 +76,7 @@ public class PlatformController {
     @PutMapping("/{id}")
     public ResponseEntity update(
             @ApiParam(value = "플랫폼 번호(PK)", required = true, example = "1")
-            @PathVariable Long id, PlatformRequestDto requestDto) {
+            @PathVariable Long id, PlatformRequest requestDto) {
         requestDto.checkValidation();
         return new ResponseEntity(service.update(id, requestDto), HttpStatus.OK);
     }

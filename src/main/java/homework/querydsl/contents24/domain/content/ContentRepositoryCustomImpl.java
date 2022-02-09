@@ -4,8 +4,8 @@ import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import homework.querydsl.contents24.web.dto.ContentResponseDto;
-import homework.querydsl.contents24.web.dto.ContentSearchCondition;
+import homework.querydsl.contents24.web.dto.response.ContentResponse;
+import homework.querydsl.contents24.web.dto.request.ContentSearchCondition;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -38,9 +38,9 @@ public class ContentRepositoryCustomImpl implements ContentRepositoryCustom{
      * @return
      */
     @Override
-    public Page<ContentResponseDto> search(ContentSearchCondition condition, Pageable pageable) {
-        QueryResults<ContentResponseDto> results = queryFactory
-                .select(Projections.fields(ContentResponseDto.class,
+    public Page<ContentResponse> search(ContentSearchCondition condition, Pageable pageable) {
+        QueryResults<ContentResponse> results = queryFactory
+                .select(Projections.fields(ContentResponse.class,
                         platform.name.as("platformName"),
                         content.id,
                         content.name))
@@ -55,7 +55,7 @@ public class ContentRepositoryCustomImpl implements ContentRepositoryCustom{
                 .limit(pageable.getPageSize())
                 .fetchResults();
 
-        List<ContentResponseDto> content = results.getResults();
+        List<ContentResponse> content = results.getResults();
         long total = results.getTotal();
 
         return new PageImpl<>(content, pageable, total);
@@ -67,9 +67,9 @@ public class ContentRepositoryCustomImpl implements ContentRepositoryCustom{
      * @return
      */
     @Override
-    public List<ContentResponseDto> listByAccount(Long accountNo) {
+    public List<ContentResponse> listByAccount(Long accountNo) {
         return queryFactory
-                .select(Projections.fields(ContentResponseDto.class,
+                .select(Projections.fields(ContentResponse.class,
                         platform.name.as("platformName"),
                         content.id,
                         content.name))

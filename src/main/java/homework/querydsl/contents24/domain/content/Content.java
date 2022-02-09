@@ -1,7 +1,7 @@
 package homework.querydsl.contents24.domain.content;
 
 import homework.querydsl.contents24.domain.platform.Platform;
-import homework.querydsl.contents24.web.dto.ContentUpdateRequestDto;
+import homework.querydsl.contents24.web.dto.request.ContentUpdateRequest;
 import lombok.*;
 
 import javax.persistence.*;
@@ -38,7 +38,7 @@ public class Content {
         }
     }
 
-    public Content update(ContentUpdateRequestDto requestDto) {
+    public Content update(ContentUpdateRequest requestDto) {
         this.name = requestDto.getName();
         return this;
     }

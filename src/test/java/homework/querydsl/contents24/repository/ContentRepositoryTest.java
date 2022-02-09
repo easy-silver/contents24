@@ -7,8 +7,8 @@ import homework.querydsl.contents24.domain.employee.Employee;
 import homework.querydsl.contents24.domain.platform.Platform;
 import homework.querydsl.contents24.domain.platform.PlatformRepository;
 import homework.querydsl.contents24.domain.possession.Possession;
-import homework.querydsl.contents24.web.dto.ContentResponseDto;
-import homework.querydsl.contents24.web.dto.ContentSearchCondition;
+import homework.querydsl.contents24.web.dto.response.ContentResponse;
+import homework.querydsl.contents24.web.dto.request.ContentSearchCondition;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -208,7 +208,7 @@ class ContentRepositoryTest {
         Pageable pageable = PageRequest.of(0, 10);
 
         //when
-        Page<ContentResponseDto> result = repository.search(condition, pageable);
+        Page<ContentResponse> result = repository.search(condition, pageable);
 
         //then
         assertThat(result.getTotalElements()).isEqualTo(1);

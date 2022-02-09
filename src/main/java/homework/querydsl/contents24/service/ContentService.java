@@ -1,9 +1,9 @@
 package homework.querydsl.contents24.service;
 
-import homework.querydsl.contents24.web.dto.ContentCreateRequestDto;
-import homework.querydsl.contents24.web.dto.ContentResponseDto;
-import homework.querydsl.contents24.web.dto.ContentSearchCondition;
-import homework.querydsl.contents24.web.dto.ContentUpdateRequestDto;
+import homework.querydsl.contents24.web.dto.request.ContentCreateRequest;
+import homework.querydsl.contents24.web.dto.response.ContentResponse;
+import homework.querydsl.contents24.web.dto.request.ContentSearchCondition;
+import homework.querydsl.contents24.web.dto.request.ContentUpdateRequest;
 import homework.querydsl.contents24.domain.account.Account;
 import homework.querydsl.contents24.domain.content.Content;
 import homework.querydsl.contents24.domain.platform.Platform;
@@ -37,7 +37,7 @@ public class ContentService {
      * @return
      */
     @Transactional
-    public Long register(ContentCreateRequestDto requestDto) {
+    public Long register(ContentCreateRequest requestDto) {
         //플랫폼 조회
         Platform platform = platformRepository.findById(requestDto.getPlatformNo())
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 플랫폼입니다. platformNo=" +
@@ -54,7 +54,7 @@ public class ContentService {
      * @param pageable
      * @return
      */
-    public Page<ContentResponseDto> search(ContentSearchCondition condition, Pageable pageable) {
+    public Page<ContentResponse> search(ContentSearchCondition condition, Pageable pageable) {
         return repository.search(condition, pageable);
     }
 
@@ -63,9 +63,9 @@ public class ContentService {
      * 엔티티를 DTO로 변환해서 반환
      * @return
      */
-    public List<ContentResponseDto> findAll() {
+    public List<ContentResponse> findAll() {
         return repository.findAll().stream()
-                .map(ContentResponseDto::new)
+                .map(ContentResponse::new)
                 .collect(Collectors.toList());
     }
 
@@ -74,11 +74,11 @@ public class ContentService {
      * @param id
      * @return contentResponseDto
      */
-    public ContentResponseDto detail(Long id) {
+    public ContentResponse detail(Long id) {
         Content content = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 컨텐츠입니다. contentNo=" + id));
 
-        ContentResponseDto responseDto = new ContentResponseDto(content);
+        ContentResponse responseDto = new ContentResponse(content);
         responseDto.setAccountList(repository.accountListByContent(id));
 
         return responseDto;
@@ -91,7 +91,7 @@ public class ContentService {
      * @return updated id
      */
     @Transactional
-    public Long update(Long id, ContentUpdateRequestDto requestDto) {
+    public Long update(Long id, ContentUpdateRequest requestDto) {
         Content content = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 컨텐츠입니다. contentNo=" + id));
 
@@ -122,7 +122,7 @@ public class ContentService {
      * @param accountNo
      * @return
      */
-    public List<ContentResponseDto> listByAccount(Long accountNo) {
+    public List<ContentResponse> listByAccount(Long accountNo) {
         //계정 조회
         Account account = accountRepository.findById(accountNo)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 계정입니다. accountNo=" + accountNo));
