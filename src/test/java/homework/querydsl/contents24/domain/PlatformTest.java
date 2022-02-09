@@ -13,7 +13,7 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
 
-import static homework.querydsl.contents24.domain.QPlatform.platform;
+import static homework.querydsl.contents24.domain.platform.QPlatform.platform;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
