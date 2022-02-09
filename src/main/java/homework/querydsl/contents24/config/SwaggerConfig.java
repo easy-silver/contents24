@@ -27,7 +27,7 @@ public class SwaggerConfig {
                 .apiInfo(this.apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors
-                        .basePackage("homework.querydsl.contents24.controller"))
+                        .basePackage("homework.querydsl.contents24.web.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }

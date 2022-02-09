@@ -1,16 +1,16 @@
 package homework.querydsl.contents24.service;
 
-import homework.querydsl.contents24.dto.ContentCreateRequestDto;
-import homework.querydsl.contents24.dto.ContentResponseDto;
-import homework.querydsl.contents24.dto.ContentSearchCondition;
-import homework.querydsl.contents24.dto.ContentUpdateRequestDto;
-import homework.querydsl.contents24.entity.Account;
-import homework.querydsl.contents24.entity.Content;
-import homework.querydsl.contents24.entity.Platform;
-import homework.querydsl.contents24.repository.AccountRepository;
-import homework.querydsl.contents24.repository.ContentRepository;
-import homework.querydsl.contents24.repository.PlatformRepository;
-import homework.querydsl.contents24.repository.PossessionRepository;
+import homework.querydsl.contents24.web.dto.ContentCreateRequestDto;
+import homework.querydsl.contents24.web.dto.ContentResponseDto;
+import homework.querydsl.contents24.web.dto.ContentSearchCondition;
+import homework.querydsl.contents24.web.dto.ContentUpdateRequestDto;
+import homework.querydsl.contents24.domain.account.Account;
+import homework.querydsl.contents24.domain.content.Content;
+import homework.querydsl.contents24.domain.platform.Platform;
+import homework.querydsl.contents24.domain.account.AccountRepository;
+import homework.querydsl.contents24.domain.content.ContentRepository;
+import homework.querydsl.contents24.domain.platform.PlatformRepository;
+import homework.querydsl.contents24.domain.possession.PossessionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

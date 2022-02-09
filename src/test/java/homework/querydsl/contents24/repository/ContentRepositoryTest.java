@@ -1,8 +1,14 @@
 package homework.querydsl.contents24.repository;
 
-import homework.querydsl.contents24.dto.ContentResponseDto;
-import homework.querydsl.contents24.dto.ContentSearchCondition;
-import homework.querydsl.contents24.entity.*;
+import homework.querydsl.contents24.domain.account.Account;
+import homework.querydsl.contents24.domain.content.Content;
+import homework.querydsl.contents24.domain.content.ContentRepository;
+import homework.querydsl.contents24.domain.employee.Employee;
+import homework.querydsl.contents24.domain.platform.Platform;
+import homework.querydsl.contents24.domain.platform.PlatformRepository;
+import homework.querydsl.contents24.domain.possession.Possession;
+import homework.querydsl.contents24.web.dto.ContentResponseDto;
+import homework.querydsl.contents24.web.dto.ContentSearchCondition;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,8 +26,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 class ContentRepositoryTest {
 
-    @Autowired ContentRepository repository;
-    @Autowired PlatformRepository platformRepository;
+    @Autowired
+    ContentRepository repository;
+    @Autowired
+    PlatformRepository platformRepository;
     @Autowired EntityManager em;
 
     @Test

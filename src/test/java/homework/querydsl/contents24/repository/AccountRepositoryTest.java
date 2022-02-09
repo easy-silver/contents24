@@ -1,6 +1,7 @@
 package homework.querydsl.contents24.repository;
 
-import homework.querydsl.contents24.entity.Platform;
+import homework.querydsl.contents24.domain.platform.Platform;
+import homework.querydsl.contents24.domain.account.AccountRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,7 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 class AccountRepositoryTest {
 
-    @Autowired AccountRepository repository;
+    @Autowired
+    AccountRepository repository;
     @Autowired EntityManager em;
 
     @Test
