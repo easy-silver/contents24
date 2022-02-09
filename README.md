@@ -14,11 +14,11 @@ Spring Data JPA와 Querydsl을 활용하여 간단한 REST API 개발
 * 목록 조회는 페이징 처리를 해야 하며 동적 검색 기능을 구현한다.
 
 ## 주요 엔티티
-* 플랫폼(Platform)
-* 컨텐츠(Content)
-* 보유(Possession)
 * 계정(Account)
+* 컨텐츠(Content)
 * 사원(Employee)
+* 플랫폼(Platform)
+* 보유(Possession)
 
 ## 연관관계
 - 플랫폼 - 컨텐츠 (1:N)
