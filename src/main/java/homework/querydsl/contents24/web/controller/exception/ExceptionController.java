@@ -1,4 +1,4 @@
-package homework.querydsl.contents24.web.controller;
+package homework.querydsl.contents24.web.controller.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
