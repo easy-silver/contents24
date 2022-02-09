@@ -7,8 +7,9 @@ import homework.querydsl.contents24.domain.employee.Employee;
 import homework.querydsl.contents24.domain.platform.Platform;
 import homework.querydsl.contents24.domain.platform.PlatformRepository;
 import homework.querydsl.contents24.domain.possession.Possession;
-import homework.querydsl.contents24.web.dto.response.ContentResponse;
 import homework.querydsl.contents24.web.dto.request.ContentSearchCondition;
+import homework.querydsl.contents24.web.dto.response.ContentResponse;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,44 +27,44 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 class ContentRepositoryTest {
 
-    @Autowired
-    ContentRepository repository;
-    @Autowired
-    PlatformRepository platformRepository;
+    @Autowired ContentRepository contentRepository;
+    @Autowired PlatformRepository platformRepository;
     @Autowired EntityManager em;
 
     @Test
-    void 컨텐츠_등록() {
+    @DisplayName("컨텐츠 등록")
+    void create() {
         //given
         Platform platform = Platform.builder()
                 .name("인프런")
                 .link("Inflearn.com")
                 .build();
-        platformRepository.save(platform);
 
-        Content content = repository.save(Content.builder()
+        Content content = Content.builder()
                 .name("실전 Querydsl")
                 .platform(platform)
-                .build());
+                .build();
 
         //when
-        Content findContent = repository.findById(content.getId()).get();
+        platformRepository.save(platform);
+        contentRepository.save(content);
 
         //then
+        Content findContent = contentRepository.findById(content.getId()).get();
+
         assertThat(findContent.getName()).isEqualTo(content.getName());
         assertThat(findContent.getPlatform().getName()).isEqualTo(platform.getName());
         assertThat(findContent.getPlatform().getLink()).isEqualTo(platform.getLink());
     }
 
     @Test
-    void 컨텐츠_전체조회() {
+    @DisplayName("컨텐츠 전체 조회")
+    void findAll() {
         //given
         Platform platform = Platform.builder()
                 .name("인프런")
                 .link("Inflearn.com")
                 .build();
-
-        platformRepository.save(platform);
 
         Content content1 = Content.builder()
                 .platform(platform)
@@ -75,35 +76,36 @@ class ContentRepositoryTest {
                 .name("실전! Spring Data JPA")
                 .build();
 
-        repository.save(content1);
-        repository.save(content2);
+        platformRepository.save(platform);
+        contentRepository.save(content1);
+        contentRepository.save(content2);
 
         //when
-        List<Content> contents = repository.findAll();
+        List<Content> contents = contentRepository.findAll();
 
         //then
-        assertThat(contents.get(0).getName()).isEqualTo("실전! Spring Data JPA");
-        assertThat(contents.get(0).getPlatform().getName()).isEqualTo("인프런");
+        assertThat(contents.size()).isEqualTo(2);
     }
 
     @Test
-    void 컨텐츠_단건조회() {
+    @DisplayName("컨텐츠 단건 조회")
+    void findById() {
         //given
         Platform platform = Platform.builder()
                 .name("인프런")
                 .link("Inflearn.com")
                 .build();
-        platformRepository.save(platform);
 
         Content content = Content.builder()
                 .name("실전! Querydsl")
                 .platform(platform)
                 .build();
 
-        Long savedId = repository.save(content).getId();
+        platformRepository.save(platform);
+        Long savedId = contentRepository.save(content).getId();
 
         //when
-        Content findContent = repository.findById(savedId).get();
+        Content findContent = contentRepository.findById(savedId).get();
 
         //then
         assertThat(findContent.getName()).isEqualTo(content.getName());
@@ -111,7 +113,8 @@ class ContentRepositoryTest {
     }
 
     @Test
-    void 컨텐츠_수정() {
+    @DisplayName("컨텐츠 수정")
+    void update() {
         //given
         Platform platform = Platform.builder()
                 .name("인프런")
@@ -119,22 +122,23 @@ class ContentRepositoryTest {
                 .build();
         platformRepository.save(platform);
 
-        Content content = repository.save(Content.builder()
+        Content content = contentRepository.save(Content.builder()
                 .name("실전 Querydsl")
                 .platform(platform)
                 .build());
-        Long savedId = repository.save(content).getId();
+        Long savedId = contentRepository.save(content).getId();
 
         //when
         content.setName("인프런222");
 
         //then
-        Content findContent = repository.findById(savedId).get();
+        Content findContent = contentRepository.findById(savedId).get();
         assertThat(findContent.getName()).isEqualTo("인프런222");
     }
 
     @Test
-    void 컨텐츠_삭제() {
+    @DisplayName("컨텐츠 삭제")
+    void delete() {
         //given
         Platform platform = Platform.builder()
                 .name("인프런")
@@ -142,21 +146,22 @@ class ContentRepositoryTest {
                 .build();
         platformRepository.save(platform);
 
-        Content content = repository.save(Content.builder()
+        Content content = contentRepository.save(Content.builder()
                 .name("실전 Querydsl")
                 .platform(platform)
                 .build());
-        repository.save(content);
+        contentRepository.save(content);
 
         //when
-        repository.delete(content);
+        contentRepository.delete(content);
 
         //then
-        assertThat(repository.findById(content.getId()).isEmpty()).isTrue();
+        assertThat(contentRepository.findById(content.getId()).isEmpty()).isTrue();
     }
 
     @Test
-    void 플랫폼으로_조회() {
+    @DisplayName("플랫폼으로 조회")
+    void findByPlatform() {
         //given
         Platform platform = Platform.builder()
                 .name("인프런")
@@ -164,18 +169,18 @@ class ContentRepositoryTest {
                 .build();
         platformRepository.save(platform);
 
-        repository.save(Content.builder()
+        contentRepository.save(Content.builder()
                 .name("실전! Querydsl")
                 .platform(platform)
                 .build());
 
-        repository.save(Content.builder()
+        contentRepository.save(Content.builder()
                 .name("실전! Spring Data JPA")
                 .platform(platform)
                 .build());
 
         //when
-        List<Content> contents = repository.findByPlatform(platform);
+        List<Content> contents = contentRepository.findByPlatform(platform);
         for (Content ct : contents) {
             System.out.println("\t\t>>>>> name = " + ct.getName());
         }
@@ -186,7 +191,8 @@ class ContentRepositoryTest {
     }
 
     @Test
-    void 다중_조건_검색() {
+    @DisplayName("다중 조건 검색")
+    void search() {
         //given
         String platformName = "테스트 플랫폼";
         Platform platform = Platform.builder()
@@ -196,7 +202,7 @@ class ContentRepositoryTest {
         platformRepository.save(platform);
 
         String contentName = "테스트 컨텐츠";
-        repository.save(Content.builder()
+        contentRepository.save(Content.builder()
                 .name(contentName)
                 .platform(platform)
                 .build());
@@ -208,7 +214,7 @@ class ContentRepositoryTest {
         Pageable pageable = PageRequest.of(0, 10);
 
         //when
-        Page<ContentResponse> result = repository.search(condition, pageable);
+        Page<ContentResponse> result = contentRepository.search(condition, pageable);
 
         //then
         assertThat(result.getTotalElements()).isEqualTo(1);
@@ -217,7 +223,8 @@ class ContentRepositoryTest {
     }
 
     @Test
-    void 계정별_컨텐츠_조회() {
+    @DisplayName("계정별 컨텐츠 조회")
+    void findByAccount() {
         // 플랫폼 생성
         Platform platform = Platform.builder()
                 .name("Inflearn")
@@ -254,6 +261,7 @@ class ContentRepositoryTest {
                 .account(account)
                 .build();
 
-        repository.listByAccount(1L);
+        //ToDo. findByAccount로 변경 필요
+        contentRepository.listByAccount(1L);
     }
 }
