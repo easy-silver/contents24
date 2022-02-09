@@ -16,8 +16,8 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Contents 24")
-                .description("Querydsl 실습 과제")
+                .title("Contents24")
+                .description("컨텐츠 계정 관리를 위한 API")
                 .build();
     }
 
