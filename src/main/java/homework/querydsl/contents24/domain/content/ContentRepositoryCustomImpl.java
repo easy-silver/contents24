@@ -13,10 +13,10 @@ import org.springframework.data.domain.Pageable;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static homework.querydsl.contents24.domain.QAccount.account;
-import static homework.querydsl.contents24.domain.QContent.content;
-import static homework.querydsl.contents24.domain.QPlatform.platform;
-import static homework.querydsl.contents24.domain.QPossession.possession;
+import static homework.querydsl.contents24.domain.account.QAccount.account;
+import static homework.querydsl.contents24.domain.content.QContent.content;
+import static homework.querydsl.contents24.domain.platform.QPlatform.platform;
+import static homework.querydsl.contents24.domain.possession.QPossession.possession;
 
 /**
  * 컨텐츠 Querydsl 구현 클래스

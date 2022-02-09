@@ -14,7 +14,7 @@ import org.springframework.data.domain.Pageable;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static homework.querydsl.contents24.domain.QPlatform.platform;
+import static homework.querydsl.contents24.domain.platform.QPlatform.platform;
 
 /**
  * 플랫폼 Querydsl 구현 클래스
