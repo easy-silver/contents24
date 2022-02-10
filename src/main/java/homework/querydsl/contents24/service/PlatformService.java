@@ -84,14 +84,11 @@ public class PlatformService {
      * @return id
      */
     @Transactional
-    public Long update(Long id, PlatformRequest requestDto) {
+    public void update(Long id, PlatformRequest requestDto) {
         Platform platform = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 플랫폼입니다. platformNo=" + id));
 
-        if(requestDto != null)
-            repository.save(platform.update(requestDto));
-
-        return platform.getId();
+        platform.update(requestDto.getName(), requestDto.getLink());
     }
 
     /**
@@ -100,7 +97,7 @@ public class PlatformService {
      * @return id
      */
     @Transactional
-    public Long deleteById(Long id) {
+    public void deleteById(Long id) {
         Long platformNo = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 플랫폼입니다. platformNo=" + id)).getId();
 
@@ -118,7 +115,5 @@ public class PlatformService {
 
         // 5.플랫폼 삭제
         repository.deleteById(platformNo);
-
-        return platformNo;
     }
 }
