@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-/**
- * 플랫폼 컨트롤러
- */
 @Api(description = "플랫폼 관련 컨트롤러")
 @RequiredArgsConstructor
 @RequestMapping("/platforms")

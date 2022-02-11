@@ -1,9 +1,10 @@
 package homework.querydsl.contents24.web.controller;
 
+import homework.querydsl.contents24.service.ContentService;
 import homework.querydsl.contents24.web.dto.request.ContentCreateRequest;
 import homework.querydsl.contents24.web.dto.request.ContentSearchCondition;
 import homework.querydsl.contents24.web.dto.request.ContentUpdateRequest;
-import homework.querydsl.contents24.service.ContentService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * 컨텐츠 컨트롤러
- */
+@Api(description = "컨텐츠 관련 컨트롤러")
 @RequiredArgsConstructor
 @RequestMapping("/contents")
 @RestController
@@ -28,9 +27,11 @@ public class ContentController {
      * @return created Id
      */
     @ApiOperation(value = "컨텐츠 신규 등록",
-                  notes = "컨텐츠를 신규 등록합니다.")
+                  notes = "새 컨텐츠를 등록합니다.")
     @PostMapping("")
-    public ResponseEntity register(ContentCreateRequest requestDto) {
+    public ResponseEntity register(
+            @ApiParam(value = "컨텐츠 등록을 위한 Request DTO")
+            ContentCreateRequest requestDto) {
         requestDto.checkValidation();
         return new ResponseEntity(service.register(requestDto), HttpStatus.CREATED);
     }
@@ -45,7 +46,10 @@ public class ContentController {
                   notes = "컨텐츠 이름 오름차순으로 정렬하여 조회합니다.\n" +
                           "검색 조건이 없을 경우 전체 조회되며 페이징 처리를 하여 보여줍니다.")
     @GetMapping("")
-    public ResponseEntity list(ContentSearchCondition condition, Pageable pageable) {
+    public ResponseEntity list(
+            @ApiParam(value = "플랫폼 목록 조회를 위한 Request DTO")
+            ContentSearchCondition condition,
+            Pageable pageable) {
         condition.checkValidation();
         return new ResponseEntity(service.search(condition, pageable), HttpStatus.OK);
     }
@@ -59,7 +63,7 @@ public class ContentController {
                   notes = "계정별로 보유한 컨텐츠 목록을 조회합니다.")
     @GetMapping("/account/{accountNo}")
     public ResponseEntity listByAccount(
-            @ApiParam(value = "계정번호", required = true, example = "1")
+            @ApiParam(value = "계정 번호(PK)", required = true, example = "1")
             @PathVariable Long accountNo) {
         return new ResponseEntity(service.listByAccount(accountNo), HttpStatus.OK);
 
