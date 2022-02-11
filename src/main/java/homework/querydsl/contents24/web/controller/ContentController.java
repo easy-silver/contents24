@@ -29,7 +29,7 @@ public class ContentController {
      */
     @ApiOperation(value = "컨텐츠 신규 등록",
                   notes = "컨텐츠를 신규 등록합니다.")
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity register(ContentCreateRequest requestDto) {
         requestDto.checkValidation();
         return new ResponseEntity(service.register(requestDto), HttpStatus.CREATED);
@@ -44,7 +44,7 @@ public class ContentController {
     @ApiOperation(value = "컨텐츠 목록 조회",
                   notes = "컨텐츠 이름 오름차순으로 정렬하여 조회합니다.\n" +
                           "검색 조건이 없을 경우 전체 조회되며 페이징 처리를 하여 보여줍니다.")
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity list(ContentSearchCondition condition, Pageable pageable) {
         condition.checkValidation();
         return new ResponseEntity(service.search(condition, pageable), HttpStatus.OK);
