@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 /**
  * 플랫폼 컨트롤러
  */
@@ -34,10 +36,8 @@ public class PlatformController {
     @PostMapping("")
     public Long register(
             @ApiParam(value = "플랫폼 등록을 위한 Request DTO")
-            @RequestBody PlatformRequest platformRequest) {
+            @Valid @RequestBody PlatformRequest platformRequest) {
 
-        //ToDo. 빈 벨리데이션으로 변경할 것
-        platformRequest.checkValidation();
         return platformService.register(platformRequest);
     }
 
@@ -85,9 +85,8 @@ public class PlatformController {
             @ApiParam(value = "플랫폼 번호(PK)", required = true, example = "1")
             @PathVariable Long id,
             @ApiParam(value = "플랫폼 수정을 위한 Request DTO")
-            @RequestBody PlatformRequest requestDto) {
+            @Valid @RequestBody PlatformRequest requestDto) {
 
-        requestDto.checkValidation();
         platformService.update(id, requestDto);
     }
 
