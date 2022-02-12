@@ -4,14 +4,17 @@ import homework.querydsl.contents24.service.ContentService;
 import homework.querydsl.contents24.web.dto.request.ContentCreateRequest;
 import homework.querydsl.contents24.web.dto.request.ContentSearchCondition;
 import homework.querydsl.contents24.web.dto.request.ContentUpdateRequest;
+import homework.querydsl.contents24.web.dto.response.ContentResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Api(description = "컨텐츠 관련 컨트롤러")
 @RequiredArgsConstructor
@@ -28,12 +31,14 @@ public class ContentController {
      */
     @ApiOperation(value = "컨텐츠 신규 등록",
                   notes = "새 컨텐츠를 등록합니다.")
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    public ResponseEntity register(
+    public Long register(
             @ApiParam(value = "컨텐츠 등록을 위한 Request DTO")
             ContentCreateRequest requestDto) {
+
         requestDto.checkValidation();
-        return new ResponseEntity(service.register(requestDto), HttpStatus.CREATED);
+        return service.register(requestDto);
     }
 
     /**
@@ -45,13 +50,16 @@ public class ContentController {
     @ApiOperation(value = "컨텐츠 목록 조회",
                   notes = "컨텐츠 이름 오름차순으로 정렬하여 조회합니다.\n" +
                           "검색 조건이 없을 경우 전체 조회되며 페이징 처리를 하여 보여줍니다.")
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("")
-    public ResponseEntity list(
+    public Page<ContentResponse> list(
             @ApiParam(value = "플랫폼 목록 조회를 위한 Request DTO")
             ContentSearchCondition condition,
             Pageable pageable) {
+
         condition.checkValidation();
-        return new ResponseEntity(service.search(condition, pageable), HttpStatus.OK);
+
+        return service.search(condition, pageable);
     }
 
     /**
@@ -61,12 +69,13 @@ public class ContentController {
      */
     @ApiOperation(value = "계정별 컨텐츠 목록 조회",
                   notes = "계정별로 보유한 컨텐츠 목록을 조회합니다.")
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/account/{accountNo}")
-    public ResponseEntity listByAccount(
+    public List<ContentResponse> listByAccount(
             @ApiParam(value = "계정 번호(PK)", required = true, example = "1")
             @PathVariable Long accountNo) {
-        return new ResponseEntity(service.listByAccount(accountNo), HttpStatus.OK);
 
+        return service.listByAccount(accountNo);
     }
 
     /**
@@ -77,11 +86,13 @@ public class ContentController {
     @ApiOperation(value = "컨텐츠 상세 조회",
                   notes = "컨텐츠 한건의 내용을 조회합니다.\n" +
                           "컨텐츠롤 보유한 계정 목록을 함께 조회합니다.")
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    public ResponseEntity detail(
+    public ContentResponse detail(
             @ApiParam(value = "컨텐츠 번호(PK)", required = true, example = "1")
             @PathVariable Long id) {
-        return new ResponseEntity(service.detail(id), HttpStatus.OK);
+
+        return service.detail(id);
     }
 
     /**
@@ -92,13 +103,15 @@ public class ContentController {
      */
     @ApiOperation(value = "컨텐츠 수정",
                   notes = "컨텐츠 번호로 조회하여 수정합니다.")
+    @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
-    public ResponseEntity update(
+    public void update(
             @ApiParam(value = "컨텐츠 번호(PK)", required = true, example = "1")
             @PathVariable Long id,
             ContentUpdateRequest requestDto) {
+
         requestDto.checkValidation();
-        return new ResponseEntity(service.update(id, requestDto), HttpStatus.OK);
+        service.update(id, requestDto);
     }
 
     /**
@@ -108,10 +121,12 @@ public class ContentController {
      */
     @ApiOperation(value = "컨텐츠 삭제",
                   notes = "컨텐츠 번호로 조회하여 삭제합니다.")
+    @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(
+    public void delete(
             @ApiParam(value = "컨텐츠 번호(PK)", required = true, example = "1")
             @PathVariable Long id) {
-        return new ResponseEntity(service.delete(id), HttpStatus.OK);
+
+        service.delete(id);
     }
 }
