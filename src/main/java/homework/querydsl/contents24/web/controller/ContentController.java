@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Api(description = "컨텐츠 관련 컨트롤러")
@@ -35,9 +36,8 @@ public class ContentController {
     @PostMapping("")
     public Long register(
             @ApiParam(value = "컨텐츠 등록을 위한 Request DTO")
-            ContentCreateRequest requestDto) {
+            @Valid @RequestBody ContentCreateRequest requestDto) {
 
-        requestDto.checkValidation();
         return service.register(requestDto);
     }
 
@@ -108,9 +108,9 @@ public class ContentController {
     public void update(
             @ApiParam(value = "컨텐츠 번호(PK)", required = true, example = "1")
             @PathVariable Long id,
-            ContentUpdateRequest requestDto) {
+            @ApiParam(value = "컨텐츠 수정을 위한 Request DTO")
+            @Valid @RequestBody ContentUpdateRequest requestDto) {
 
-        requestDto.checkValidation();
         service.update(id, requestDto);
     }
 
