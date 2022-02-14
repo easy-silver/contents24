@@ -66,7 +66,7 @@ class PlatformRepositoryTest {
         repository.save(platform1);
 
         //when
-        List<Platform> platforms = repository.findAll();
+        List<Platform> platforms = repository.findAllPlatforms();
 
         //then
         assertThat(platforms.size()).isEqualTo(2);

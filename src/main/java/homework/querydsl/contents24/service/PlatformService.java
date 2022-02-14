@@ -55,7 +55,7 @@ public class PlatformService {
      * 조회해 온 엔티티를 DTO로 변환하여 리스트 반환
      */
     public List<PlatformResponse> findAll() {
-        return repository.findAll().stream()
+        return repository.findAllPlatforms().stream()
                 .map(PlatformResponse::new)
                 .collect(Collectors.toList());
     }

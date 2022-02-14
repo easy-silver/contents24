@@ -10,6 +10,9 @@ import java.util.List;
  */
 public interface PlatformRepository extends JpaRepository<Platform, Long>, PlatformRepositoryCustom {
 
+    /**
+     * 전체 플랫폼 조회
+     */
     @Query("SELECT p FROM Platform p ORDER BY p.id DESC")
-    List<Platform> findAll();
+    List<Platform> findAllPlatforms();
 }
