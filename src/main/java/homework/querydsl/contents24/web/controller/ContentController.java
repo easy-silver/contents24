@@ -10,7 +10,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,12 +53,9 @@ public class ContentController {
     @GetMapping("")
     public Page<ContentResponse> list(
             @ApiParam(value = "플랫폼 목록 조회를 위한 Request DTO")
-            ContentSearchCondition condition,
-            Pageable pageable) {
+            @Valid ContentSearchCondition condition) {
 
-        condition.checkValidation();
-
-        return service.search(condition, pageable);
+        return service.search(condition, condition.initPageRequest());
     }
 
     /**
