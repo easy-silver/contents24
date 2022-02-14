@@ -1,14 +1,15 @@
 package homework.querydsl.contents24.service;
 
-import homework.querydsl.contents24.web.dto.response.ContentResponse;
-import homework.querydsl.contents24.web.dto.request.PlatformRequest;
-import homework.querydsl.contents24.web.dto.response.PlatformResponse;
-import homework.querydsl.contents24.web.dto.request.PlatformSearchCondition;
-import homework.querydsl.contents24.domain.platform.Platform;
+import homework.querydsl.contents24.domain.account.Account;
 import homework.querydsl.contents24.domain.account.AccountRepository;
 import homework.querydsl.contents24.domain.content.ContentRepository;
+import homework.querydsl.contents24.domain.platform.Platform;
 import homework.querydsl.contents24.domain.platform.PlatformRepository;
 import homework.querydsl.contents24.domain.possession.PossessionRepository;
+import homework.querydsl.contents24.web.dto.request.PlatformRequest;
+import homework.querydsl.contents24.web.dto.request.PlatformSearchCondition;
+import homework.querydsl.contents24.web.dto.response.ContentResponse;
+import homework.querydsl.contents24.web.dto.response.PlatformResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -98,22 +99,25 @@ public class PlatformService {
      */
     @Transactional
     public void deleteById(Long id) {
-        Long platformNo = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 플랫폼입니다. platformNo=" + id)).getId();
+        Platform platform = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 플랫폼입니다. platformNo=" + id));
 
         // 1.플랫폼에 해당하는 계정 번호 확인(리스트)
-        List<Long> ids = accountRepository.findByPlatform(platformNo);
+        List<Long> accountIds = accountRepository.findByPlatform(platform)
+                .stream()
+                .map(Account::getId)
+                .collect(Collectors.toList());
 
         // 2.계정 번호 리스트로 보유 데이터 삭제
-        possessionRepository.deleteAllByAccount(ids);
+        possessionRepository.deleteAllByAccount(accountIds);
 
         // 3.계정 삭제(플랫폼 번호로 삭제)
-        accountRepository.deleteAllByPlatform(platformNo);
+        accountRepository.deleteAllByPlatform(platform.getId());
 
         // 4.플랫폼 번호로 컨텐츠 삭제
-        contentRepository.deleteAllByPlatform(platformNo);
+        contentRepository.deleteAllByPlatform(platform.getId());
 
         // 5.플랫폼 삭제
-        repository.deleteById(platformNo);
+        repository.deleteById(platform.getId());
     }
 }

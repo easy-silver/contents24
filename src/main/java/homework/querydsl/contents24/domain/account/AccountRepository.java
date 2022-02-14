@@ -1,6 +1,6 @@
 package homework.querydsl.contents24.domain.account;
 
-import homework.querydsl.contents24.domain.account.Account;
+import homework.querydsl.contents24.domain.platform.Platform;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,9 +14,10 @@ import java.util.List;
  */
 public interface AccountRepository extends JpaRepository<Account, Long> {
 
-    /* 플랫폼에 해당하는 가입 계정 조회 */
-    @Query("SELECT a.id FROM Account a WHERE a.platform.id = :id")
-    List<Long> findByPlatform(@Param("id") Long platformNo);
+    /**
+     * 플랫폼별 계정 전체 조회
+     */
+    List<Account> findByPlatform(Platform platform);
 
     /* 플랫폼에 해당하는 계정 전체 삭제 */
     @Modifying
