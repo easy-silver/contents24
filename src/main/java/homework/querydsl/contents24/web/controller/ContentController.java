@@ -30,7 +30,7 @@ public class ContentController {
      * @return created Id
      */
     @ApiOperation(value = "컨텐츠 신규 등록",
-                  notes = "새 컨텐츠를 등록합니다.")
+                  notes = "새 컨텐츠를 등록합니다. 등록 후에는 등록한 컨텐츠의 컨텐츠 번호(PK)를 반환합니다.")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
     public Long register(
