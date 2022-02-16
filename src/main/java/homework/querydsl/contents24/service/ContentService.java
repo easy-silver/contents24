@@ -1,16 +1,16 @@
 package homework.querydsl.contents24.service;
 
-import homework.querydsl.contents24.web.dto.request.ContentCreateRequest;
-import homework.querydsl.contents24.web.dto.response.ContentResponse;
-import homework.querydsl.contents24.web.dto.request.ContentSearchCondition;
-import homework.querydsl.contents24.web.dto.request.ContentUpdateRequest;
 import homework.querydsl.contents24.domain.account.Account;
-import homework.querydsl.contents24.domain.content.Content;
-import homework.querydsl.contents24.domain.platform.Platform;
 import homework.querydsl.contents24.domain.account.AccountRepository;
+import homework.querydsl.contents24.domain.content.Content;
 import homework.querydsl.contents24.domain.content.ContentRepository;
+import homework.querydsl.contents24.domain.platform.Platform;
 import homework.querydsl.contents24.domain.platform.PlatformRepository;
 import homework.querydsl.contents24.domain.possession.PossessionRepository;
+import homework.querydsl.contents24.web.dto.request.ContentCreateRequest;
+import homework.querydsl.contents24.web.dto.request.ContentSearchCondition;
+import homework.querydsl.contents24.web.dto.request.ContentUpdateRequest;
+import homework.querydsl.contents24.web.dto.response.ContentResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,9 +43,10 @@ public class ContentService {
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 플랫폼입니다. platformNo=" +
                         requestDto.getPlatformNo()));
 
-        return repository.save(requestDto
-                .toEntity()
-                .changePlatform(platform)).getId();
+        Content savedContent = repository.save(requestDto.toEntity());
+        savedContent.changePlatform(platform);
+
+        return savedContent.getId();
     }
 
     /**
@@ -91,11 +92,11 @@ public class ContentService {
      * @return updated id
      */
     @Transactional
-    public Long update(Long id, ContentUpdateRequest requestDto) {
+    public void update(Long id, ContentUpdateRequest requestDto) {
         Content content = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 컨텐츠입니다. contentNo=" + id));
 
-        return content.update(requestDto).getId();
+        content.update(requestDto);
     }
 
     /**
@@ -104,7 +105,7 @@ public class ContentService {
      * @return deleted id
      */
     @Transactional
-    public Long delete(Long id) {
+    public void delete(Long id) {
         Long contentId = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 컨텐츠입니다. contentNo=" + id)).getId();
 
@@ -113,8 +114,6 @@ public class ContentService {
 
         // 2.컨텐츠 삭제
         repository.deleteById(contentId);
-
-        return contentId;
     }
 
     /**

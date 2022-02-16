@@ -38,13 +38,11 @@ public class Content {
         }
     }
 
-    public Content update(ContentUpdateRequest requestDto) {
+    public void update(ContentUpdateRequest requestDto) {
         this.name = requestDto.getName();
-        return this;
     }
 
-    public Content changePlatform(Platform platform) {
+    public void changePlatform(Platform platform) {
         this.platform = platform;
-        return this;
     }
 }
